@@ -1,0 +1,156 @@
+import java.util.*;
+
+// Class to store student info and applications
+class Student {
+    String name, email, skills;
+    int internshipId;
+    String status;
+
+    Student(String name, String email, String skills, int internshipId) {
+        this.name = name;
+        this.email = email;
+        this.skills = skills;
+        this.internshipId = internshipId;
+        this.status = "Applied";
+    }
+}
+
+// Class to store internship info
+class Internship {
+    int id;
+    String title;
+    String company;
+
+    Internship(int id, String title, String company) {
+        this.id = id;
+        this.title = title;
+        this.company = company;
+    }
+}
+
+public class InternshipSystem {
+    static Scanner sc = new Scanner(System.in);
+    static List<Student> students = new ArrayList<>();
+    static List<Internship> internships = new ArrayList<>();
+
+    public static void main(String[] args) {
+        // Sample internships
+        internships.add(new Internship(101, "Java Developer Intern", "ABC Corp"));
+        internships.add(new Internship(102, "Web Developer Intern", "XYZ Ltd"));
+
+        while (true) {
+            System.out.println("\n--- Student Internship System ---");
+            System.out.println("1. Student Login/Register");
+            System.out.println("2. Company / Admin");
+            System.out.println("3. Exit");
+            System.out.print("Choose option: ");
+            int choice = sc.nextInt();
+            sc.nextLine(); // consume newline
+
+            switch (choice) {
+                case 1:
+                    studentModule();
+                    break;
+                case 2:
+                    companyModule();
+                    break;
+                case 3:
+                    System.out.println("Exiting system...");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
+    }
+
+    // -------- Student Module --------
+    static void studentModule() {
+        System.out.println("\n--- Student Registration / Application ---");
+        System.out.print("Enter Name: ");
+        String name = sc.nextLine();
+        System.out.print("Enter Email: ");
+        String email = sc.nextLine();
+        System.out.print("Enter Skills: ");
+        String skills = sc.nextLine();
+
+        System.out.println("\nAvailable Internships:");
+        for (Internship i : internships) {
+            System.out.println(i.id + " - " + i.title + " at " + i.company);
+        }
+
+        System.out.print("Enter Internship ID to Apply: ");
+        int internshipId = sc.nextInt();
+        sc.nextLine();
+
+        Student student = new Student(name, email, skills, internshipId);
+        students.add(student);
+
+        // ✅ Updated Output Section
+        System.out.println("\nApplication Submitted Successfully!");
+
+        System.out.println("\n--- Application Details ---");
+        System.out.println("Name: " + student.name);
+        System.out.println("Email: " + student.email);
+        System.out.println("Skills: " + student.skills);
+        System.out.println("Internship ID: " + student.internshipId);
+        System.out.println("Status: " + student.status);
+    }
+
+    // -------- Company / Admin Module --------
+    static void companyModule() {
+        System.out.println("\n--- Company / Admin Panel ---");
+        System.out.println("1. View Applications");
+        System.out.println("2. Update Application Status");
+        System.out.print("Choose option: ");
+        int choice = sc.nextInt();
+        sc.nextLine();
+
+        switch (choice) {
+            case 1:
+                viewApplications();
+                break;
+            case 2:
+                updateStatus();
+                break;
+            default:
+                System.out.println("Invalid choice!");
+        }
+    }
+
+    static void viewApplications() {
+        System.out.println("\n--- All Student Applications ---");
+        if (students.isEmpty()) {
+            System.out.println("No applications yet.");
+            return;
+        }
+
+        for (Student s : students) {
+            System.out.println("Name: " + s.name +
+                    ", Email: " + s.email +
+                    ", Skills: " + s.skills +
+                    ", Internship ID: " + s.internshipId +
+                    ", Status: " + s.status);
+        }
+    }
+
+    static void updateStatus() {
+        System.out.print("Enter student email to update status: ");
+        String email = sc.nextLine();
+        boolean found = false;
+
+        for (Student s : students) {
+            if (s.email.equalsIgnoreCase(email)) {
+                System.out.print("Enter new status (Selected / Rejected / Under Review): ");
+                s.status = sc.nextLine();
+                System.out.println("Status updated successfully!");
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Student not found!");
+        }
+    }
+}
