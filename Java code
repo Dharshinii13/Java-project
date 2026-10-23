@@ -86,7 +86,7 @@ public class InternshipSystem {
         Student student = new Student(name, email, skills, internshipId);
         students.add(student);
 
-        // ✅ Updated Output Section
+        
         System.out.println("\nApplication Submitted Successfully!");
 
         System.out.println("\n--- Application Details ---");
